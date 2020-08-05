@@ -1,0 +1,19 @@
+.container {
+  width: fit-content;
+}
+
+.grid {
+  grid-template-columns: repeat(5, 1fr);
+  display: grid;
+  gap: 10px;
+}
+
+.btn {
+  height: 50px;
+  width: 50px;
+  border-radius: 50%;
+}
+
+.prog {
+  margin-bottom: 15px;
+}
