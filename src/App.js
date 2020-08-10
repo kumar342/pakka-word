@@ -1,25 +1,51 @@
 import React, { Component } from "react";
 import "bootstrap/dist/css/bootstrap.css";
 import "./App.css";
+import data from "./data";
 
 export default class App extends Component {
   state = {
-    value: [],
+    data: [],
+    value: "",
     totalValues: [],
+    tasks: [],
+    renderArray: [],
   };
   clickValue = async (e) => {
     const { value } = this.state;
-    value.push(e.target.id);
+    let str = value + e.target.id;
     this.setState({
-      totalValues: value,
+      value: str,
     });
-    console.log(value);
-    console.log(value.length);
-    console.log(value.join(""));
+    if (value.length === 4) {
+      let { totalValues } = this.state;
+      totalValues.push({ str });
+      this.state.renderArray.filter((item) => {
+        if (item.name === str) {
+          return (item.isActive = true);
+        }
+      });
+      this.setState({
+        totalValues: totalValues,
+        value: "",
+      });
+    }
+  };
+
+  componentDidMount = async () => {
+    let redData = data[0].tasks;
+    redData.map((red) => {
+      return { ...red, isActive: false };
+    });
+    await this.setState({
+      data: data[0].alphabets,
+      tasks: data[0].tasks,
+      renderArray: redData,
+    });
   };
 
   render() {
-    const { totalValues } = this.state;
+    const { value } = this.state;
     return (
       <div className="container">
         <h1> Give Me Five</h1>
@@ -28,100 +54,55 @@ export default class App extends Component {
             <div
               className="progress-bar bg-danger"
               role="progressbar"
-              style={{ width: "25%" }}
+              style={{ width: "100%" }}
               aria-valuenow="100"
               aria-valuemin="0"
               aria-valuemax="100"
             ></div>
           </div>
         </div>
+        <div>
+          <input className="input" type="text" value={value}></input>
+        </div>
         <div className="grid">
-          <button
-            id="P"
-            type="button"
-            onClick={this.clickValue}
-            className="btn btn-outline-danger"
-            value={this.state.value}
-          >
-            P
-          </button>
-          <button
-            id="L"
-            type="button"
-            onClick={this.clickValue}
-            className="btn btn-outline-danger"
-            value={this.state.value}
-          >
-            L
-          </button>
-          <button
-            id="P"
-            type="button"
-            onClick={this.clickValue}
-            className="btn btn-outline-danger"
-          >
-            P
-          </button>
-          <button
-            id="T"
-            type="button"
-            onClick={this.clickValue}
-            className="btn btn-outline-danger"
-          >
-            T
-          </button>
-          <button
-            id="S"
-            type="button"
-            onClick={this.clickValue}
-            className="btn btn-outline-danger"
-          >
-            S
-          </button>
-          <button
-            id="A"
-            type="button"
-            onClick={this.clickValue}
-            className="btn btn-outline-danger"
-          >
-            A
-          </button>
-          <button
-            id="C"
-            type="button"
-            onClick={this.clickValue}
-            className="btn btn-outline-danger"
-          >
-            C
-          </button>
-          <button
-            id="E"
-            type="button"
-            onClick={this.clickValue}
-            className="btn btn-outline-danger"
-          >
-            E
-          </button>
-          <button
-            id="H"
-            type="button"
-            onClick={this.clickValue}
-            className="btn btn-outline-danger"
-          >
-            H
-          </button>
-          <button
-            id="D"
-            type="button"
-            onClick={this.clickValue}
-            className="btn btn-outline-danger"
-          >
-            D
-          </button>
+          {this.state.data.map((item, i) => {
+            return (
+              <button
+                key={i}
+                id={item.id}
+                type="button"
+                onClick={this.clickValue}
+                className="btn btn-outline-danger"
+              >
+                {item.id}
+              </button>
+            );
+          })}
         </div>
         <div className="d-flex">
-          <div>{totalValues.length <= 5 && totalValues.map((i) => i)}</div>
-          <div>{this.state.totalValues.length}</div>
+          <div>
+            <ul>
+              {" "}
+              {this.state.renderArray.map((item, i) => {
+                return (
+                  <li key={i}>
+                    <div className="lists col-sm-12">
+                      <div className="item-name col-sm-8">{item.name}</div>
+                      <div
+                        className="item-length col-sm-4"
+                        style={{
+                          backgroundColor:
+                            item.isActive === true ? "green" : "red",
+                        }}
+                      >
+                        {item.name.length}
+                      </div>
+                    </div>
+                  </li>
+                );
+              })}
+            </ul>
+          </div>
         </div>
       </div>
     );

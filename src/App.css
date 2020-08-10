@@ -1,5 +1,7 @@
 .container {
   width: fit-content;
+  box-shadow: 1px 2px 3px 2px green;
+  height: 100vh;
 }
 
 .grid {
@@ -16,4 +18,29 @@
 
 .prog {
   margin-bottom: 15px;
+}
+.style {
+  display: flex;
+  flex: 1;
+}
+li {
+  margin-top: 15px;
+  list-style-type: none;
+}
+
+.lists {
+  display: flex;
+}
+.item-name {
+  margin-right: 50%;
+}
+
+.item-length {
+  border-radius: 50%;
+  height: auto;
+}
+
+.input {
+  margin-bottom: 10px;
+  width: 100%;
 }
